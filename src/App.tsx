@@ -2,17 +2,36 @@ import './App.css';
 import { useActions, useSelector } from './modules/store';
 import { Box, Button } from '@mui/material';
 
-function App() {
-  const actions = useActions();
-  const count = useSelector((x) => x.app.count);
-
+const App = () => {
+  console.log('Render App');
   return (
     <>
-      <Button onClick={() => actions.additional(2)}>Add</Button>
-      <Button onClick={() => actions.subtraction(1)}>Sub</Button>
+      <Counter1 />
+      <Counter2 />
+    </>
+  );
+};
+export default App;
+
+const Counter1 = () => {
+  console.log('Render Counter1');
+  const actions = useActions();
+  const count = useSelector((x) => x.app1.count1);
+  return (
+    <>
+      <Button onClick={() => actions.app1.additional1(1)}>Add</Button>
       <Box>{count}</Box>
     </>
   );
-}
-
-export default App;
+};
+const Counter2 = () => {
+  console.log('Render Counter2');
+  const actions = useActions();
+  const count = useSelector((x) => x.app2.count1);
+  return (
+    <>
+      <Button onClick={() => actions.app2.additional1(1)}>Add</Button>
+      <Box>{count}</Box>
+    </>
+  );
+};
