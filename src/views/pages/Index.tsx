@@ -11,8 +11,8 @@ const Index = () => {
       <Button onClick={() => actions.moveTo({ pathname: '/settings' })}>
         設定画面に移動
       </Button>
-      <Button onClick={() => actions.additional1(1)}>Add</Button>
-      <Box>{store.count1}</Box>
+      <Button onClick={() => actions.additional(1)}>Add</Button>
+      <Box>{store.count}</Box>
     </>
   );
 };

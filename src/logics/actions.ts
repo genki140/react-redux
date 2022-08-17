@@ -10,7 +10,6 @@ const moveTo = (
   // urlに応じて必要な画面インスタンスを生成したり破棄したりする。
 
   // 適当実装
-
   if (payload.pathname === '/settings') {
     state.index = undefined;
     if (state.settings == null) {
@@ -26,8 +25,7 @@ const moveTo = (
     if (state.index == null) {
       state.index = {
         title: 'インデックス',
-        count1: 0,
-        count2: 0,
+        count: 0,
       };
     }
     // urlを切り替え
@@ -35,19 +33,13 @@ const moveTo = (
   }
 };
 
-const additional1 = (state: AppState, { payload }: PayloadAction<number>) => {
+const additional = (state: AppState, { payload }: PayloadAction<number>) => {
   if (state.index != null) {
-    state.index.count1 += payload;
-  }
-};
-const additional2 = (state: AppState, { payload }: PayloadAction<number>) => {
-  if (state.index != null) {
-    state.index.count2 += payload;
+    state.index.count += payload;
   }
 };
 
 export const actions = {
   moveTo,
-  additional1,
-  additional2,
+  additional,
 };

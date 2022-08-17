@@ -4,7 +4,7 @@ export type AppState = {
     pathname: string;
   };
 
-  index?: { title: string; count1: number; count2: number };
+  index?: { title: string; count: number };
 
   settings?: {
     items: { name: string }[];

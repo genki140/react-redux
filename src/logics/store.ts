@@ -15,9 +15,10 @@ export const appSlice = createSlice({
 // Storeの定義
 export const store = configureStore({
   reducer: appSlice.reducer,
-  // middleware: (getDefaultMiddleware) =>
-  //   getDefaultMiddleware().concat(createRouterMiddleware(history)),
 });
+
+// middleware: (getDefaultMiddleware) =>
+//   getDefaultMiddleware().concat(createRouterMiddleware(history)),
 
 // export const appSlice2 = createSlice({
 //   name: 'app2',
