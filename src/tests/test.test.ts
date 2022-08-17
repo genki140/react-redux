@@ -5,11 +5,15 @@ test('reduxTest', () => {
   let state = appSlice.reducer(undefined, { type: '@@INIT' });
   console.log(state);
 
-  // カウンターテスト
+  // URLの移動
+  state = appSlice.reducer(state, appSlice.actions.moveTo({ pathname: '/' }));
+  console.log(state);
+
+  // カウンター
   state = appSlice.reducer(state, appSlice.actions.additional(1));
   console.log(state);
 
-  // URLの移動もテスト
+  // URLの移動
   state = appSlice.reducer(
     state,
     appSlice.actions.moveTo({ pathname: '/settings' })
