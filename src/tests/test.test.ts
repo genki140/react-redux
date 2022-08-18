@@ -1,4 +1,4 @@
-import { appSlice } from '../logics/store';
+import { appSlice } from '../state/store';
 
 test('reduxTest', () => {
   // 初期化
@@ -14,10 +14,7 @@ test('reduxTest', () => {
   console.log(state);
 
   // URLの移動
-  state = appSlice.reducer(
-    state,
-    appSlice.actions.moveTo({ pathname: '/settings' })
-  );
+  state = appSlice.reducer(state, appSlice.actions.moveTo({ pathname: '/settings' }));
   console.log(state);
 
   expect(true).toEqual(true);

@@ -10,10 +10,7 @@ import {
 import { AppState } from './state';
 import { appActions, RootDispatch, RootState } from './store';
 
-const moveTo = (
-  state: AppState,
-  { payload }: PayloadAction<{ pathname: string }>
-) => {
+const moveTo = (state: AppState, { payload }: PayloadAction<{ pathname: string }>) => {
   // urlに応じて必要な画面インスタンスを生成したり破棄したりする。
 
   // 適当実装
@@ -46,30 +43,30 @@ const additional = (state: AppState, { payload }: PayloadAction<number>) => {
   }
 };
 
+const setState = (state: AppState, { payload }: PayloadAction<AppState>) => {
+  // state.router = payload.router;
+  if (state.index != null) {
+    state.index.count += 1;
+  }
+  //  return payload;
+};
+
 export const actions = {
   moveTo,
   additional,
+  setState,
 };
 
 // 非同期アクションの定義テスト
 export function createAppAsyncThunk<Returned, ThunkArg>(
   typePrefix: string,
-  payloadCreator: AsyncThunkPayloadCreator<
-    Returned,
-    ThunkArg,
-    { dispatch: RootDispatch; state: RootState }
-  >,
+  payloadCreator: AsyncThunkPayloadCreator<Returned, ThunkArg, { dispatch: RootDispatch; state: RootState }>,
   options?: AsyncThunkOptions<ThunkArg>
-): AsyncThunk<
-  Returned,
-  ThunkArg,
-  { dispatch: RootDispatch; state: RootState }
-> {
-  return createAsyncThunk<
-    Returned,
-    ThunkArg,
-    { dispatch: RootDispatch; state: RootState }
-  >('app/' + typePrefix, payloadCreator);
+): AsyncThunk<Returned, ThunkArg, { dispatch: RootDispatch; state: RootState }> {
+  return createAsyncThunk<Returned, ThunkArg, { dispatch: RootDispatch; state: RootState }>(
+    'app/' + typePrefix,
+    payloadCreator
+  );
 }
 
 export const updateData = createAppAsyncThunk(

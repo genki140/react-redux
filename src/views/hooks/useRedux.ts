@@ -3,9 +3,9 @@
 import { useMemo } from 'react';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { useDispatch, useSelector as useReduxSelector } from 'react-redux';
-import { updateData } from '../../logics/actions';
-import { AppState } from '../../logics/state';
-import { RootDispatch, appSlice, store } from '../../logics/store';
+import { updateData } from '../../state/actions';
+import { AppState } from '../../state/state';
+import { RootDispatch, appSlice, store } from '../../state/store';
 
 // アクションをまとめて使いやすくしたhooks
 export const useActions = () => {
@@ -26,8 +26,7 @@ export type RootState = ReturnType<typeof store.getState>;
 export const useSelector: <Selected>(
   selector: (state: AppState) => Selected
   // equalityFn?: EqualityFn<Selected> | undefined
-) => Selected = (selector) =>
-  useReduxSelector((x: RootState) => selector(x.app));
+) => Selected = (selector) => useReduxSelector((x: RootState) => selector(x.app));
 
 // export interface TypedUseSelectorHook<TState> {
 //   <TSelected>(selector: (state: TState) => TSelected, equalityFn?: EqualityFn<TSelected>): TSelected;

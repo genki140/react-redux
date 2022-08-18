@@ -1,46 +1,41 @@
-# Getting Started with Create React App
+# コンセプト
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+ページ遷移を含めた動作全体のテストを、UI を経由せずにロジックだけで完結させたい。
+ルーティングを含む全てのステートを Redux で管理することで実現する。
+環境やブラウザ依存処理は DI を使用してテストを容易にする。
 
-## Available Scripts
+# フォルダ構成
 
-In the project directory, you can run:
+## utils
 
-### `npm start`
+色々なところから参照される便利関数群。
+バックエンドやブラウザ依存処理などを記述してはいけない。
+用途に応じて以下の各フォルダ内にも配置できるかも。
+その場合は自分のフォルダ内の utils と、トップレベルの utils にのみアクセス可能とする。
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## logics
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+state から参照される環境依存処理系。
+テストの時にモック化するものはすべてここに記述する。(Dependency Injection で実装できるようにする？)
 
-### `npm test`
+## state
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+redux でステートと action を管理。
+view や react のライブラリに依存しない。
 
-### `npm run build`
+## tests
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+logics に対してのテストコードを記述。
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## views
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+logics の store からデータを取得し、action を実行する。
+表示に関するステートは保持できるが、それ以外のステートやロジックを実装してはいけない。
 
-### `npm run eject`
+# ToDo
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+確認ダイアログ表示を扱う。
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Redux Toolkit Query を活用する。
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Electron でアプリ化試してみたい。
