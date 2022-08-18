@@ -13,6 +13,8 @@ const Index = () => {
       </Button>
       <Button onClick={() => actions.additional(1)}>Add</Button>
       <Box>{store.count}</Box>
+
+      {/* <Button onClick={() => actions.updateData()}>Update</Button> */}
     </>
   );
 };

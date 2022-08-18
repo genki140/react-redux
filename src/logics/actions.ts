@@ -1,7 +1,14 @@
 // アクションの定義
 
-import { PayloadAction } from '@reduxjs/toolkit';
+import {
+  AsyncThunk,
+  AsyncThunkOptions,
+  AsyncThunkPayloadCreator,
+  createAsyncThunk,
+  PayloadAction,
+} from '@reduxjs/toolkit';
 import { AppState } from './state';
+import { appActions, RootDispatch, RootState } from './store';
 
 const moveTo = (
   state: AppState,
@@ -43,3 +50,35 @@ export const actions = {
   moveTo,
   additional,
 };
+
+// 非同期アクションの定義テスト
+export function createAppAsyncThunk<Returned, ThunkArg>(
+  typePrefix: string,
+  payloadCreator: AsyncThunkPayloadCreator<
+    Returned,
+    ThunkArg,
+    { dispatch: RootDispatch; state: RootState }
+  >,
+  options?: AsyncThunkOptions<ThunkArg>
+): AsyncThunk<
+  Returned,
+  ThunkArg,
+  { dispatch: RootDispatch; state: RootState }
+> {
+  return createAsyncThunk<
+    Returned,
+    ThunkArg,
+    { dispatch: RootDispatch; state: RootState }
+  >('app/' + typePrefix, payloadCreator);
+}
+
+export const updateData = createAppAsyncThunk(
+  'updateData',
+  async (params: { id: string } | undefined, { dispatch, getState }) => {
+    // const result = await sdkClient.update({ params })
+    console.log('dispatch');
+    dispatch(appActions.additional(3));
+    dispatch(appActions.additional(-2));
+    throw new Error('エラー');
+  }
+);
