@@ -1,5 +1,6 @@
 // reduxを reactから使うための機能はここに記述する（ロジックテストには使用しない）
 
+import { useMemo } from 'react';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { useDispatch, useSelector as useReduxSelector } from 'react-redux';
 import { updateData } from '../../logics/actions';
@@ -9,10 +10,13 @@ import { RootDispatch, appSlice, store } from '../../logics/store';
 // アクションをまとめて使いやすくしたhooks
 export const useActions = () => {
   const dispatch: RootDispatch = useDispatch();
-  return {
-    ...bindActionCreators(appSlice.actions, dispatch),
-    updateData: () => dispatch(updateData()),
-  };
+  return useMemo(
+    () => ({
+      ...bindActionCreators(appSlice.actions, dispatch),
+      updateData: () => dispatch(updateData()),
+    }),
+    [dispatch]
+  );
 };
 
 // Selectorに型を付ける
