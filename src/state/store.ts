@@ -20,7 +20,7 @@ export const appSlice = createSlice({
 export const appActions = appSlice.actions;
 
 // Storeの定義
-export const store = configureStore({
+const store = configureStore({
   reducer: {
     app: appSlice.reducer,
     [userApi.reducerPath]: userApi.reducer,
@@ -29,6 +29,7 @@ export const store = configureStore({
   // middleware: (getDefaultMiddleware) =>
   //   getDefaultMiddleware().concat(userApi.middleware),
 });
+export default store;
 
 export type RootState = ReturnType<typeof store.getState>;
 export type RootDispatch = typeof store.dispatch;
