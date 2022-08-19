@@ -14,10 +14,10 @@ export type AppState = {
   confirm?: {
     title: string;
     message: string;
-    ok: string;
+    accept: string;
     cancel?: string;
-    result: boolean;
   };
+  confirmResult?: boolean;
 };
 
 // 初期値の定義

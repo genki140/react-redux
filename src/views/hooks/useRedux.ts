@@ -3,7 +3,7 @@
 import { useMemo } from 'react';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { useDispatch, useSelector as useReduxSelector } from 'react-redux';
-import { updateData } from '../../state/actions';
+import { showConfirm, updateData } from '../../state/actions';
 import { AppState } from '../../state/state';
 import { RootDispatch, appSlice, store } from '../../state/store';
 
@@ -12,8 +12,10 @@ export const useActions = () => {
   const dispatch: RootDispatch = useDispatch();
   return useMemo(
     () => ({
-      ...bindActionCreators(appSlice.actions, dispatch),
-      updateData: () => dispatch(updateData()),
+      ...bindActionCreators({ ...appSlice.actions }, dispatch),
+      // updateData: () => dispatch(updateData()),
+      showConfirm: (params: { title: string; message: string; accept: string; cancel?: string }) =>
+        dispatch(showConfirm(params)).unwrap(),
     }),
     [dispatch]
   );

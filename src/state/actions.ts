@@ -7,6 +7,7 @@ import {
   createAsyncThunk,
   PayloadAction,
 } from '@reduxjs/toolkit';
+import { sleep } from '../utils/promise';
 import { AppState } from './state';
 import { appActions, RootDispatch, RootState } from './store';
 
@@ -43,18 +44,30 @@ const additional = (state: AppState, { payload }: PayloadAction<number>) => {
   }
 };
 
-const setState = (state: AppState, { payload }: PayloadAction<AppState>) => {
-  // state.router = payload.router;
-  if (state.index != null) {
-    state.index.count += 1;
-  }
-  //  return payload;
+const openConfirm = (
+  state: AppState,
+  {
+    payload,
+  }: PayloadAction<{
+    title: string;
+    message: string;
+    accept: string;
+    cancel?: string;
+  }>
+) => {
+  state.confirm = payload;
+};
+
+const closeConfirm = (state: AppState, { payload }: PayloadAction<boolean>) => {
+  state.confirm = undefined;
+  state.confirmResult = payload;
 };
 
 export const actions = {
   moveTo,
   additional,
-  setState,
+  openConfirm,
+  closeConfirm,
 };
 
 // 非同期アクションの定義テスト
@@ -68,6 +81,42 @@ export function createAppAsyncThunk<Returned, ThunkArg>(
     payloadCreator
   );
 }
+
+export const showConfirm = createAppAsyncThunk(
+  'showConfirm',
+  async (params: { title: string; message: string; accept: string; cancel?: string }, { dispatch, getState }) => {
+    dispatch(appActions.openConfirm(params));
+
+    // このステート監視なんとかならないか。
+    while (true) {
+      const nowState = getState();
+      if (nowState.app.confirm == null) {
+        return nowState.app.confirmResult;
+      }
+      await sleep(10);
+    }
+  }
+);
+
+export const deleteTest = createAppAsyncThunk('deleteTest', async (params: void, { dispatch, getState }) => {
+  const result = await dispatch(
+    showConfirm({
+      title: '削除確認',
+      message: '本当に削除しますか？',
+      accept: '削除',
+      cancel: 'キャンセル',
+    })
+  ).unwrap();
+  if (result) {
+    await dispatch(
+      showConfirm({
+        title: '削除完了',
+        message: '削除されました',
+        accept: 'OK',
+      })
+    ).unwrap();
+  }
+});
 
 export const updateData = createAppAsyncThunk(
   'updateData',

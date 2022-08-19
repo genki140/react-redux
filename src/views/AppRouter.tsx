@@ -19,7 +19,10 @@ export function AppRouter(props: { children: ReactNode }) {
     location: history.location,
   });
 
-  useLayoutEffect(() => history.listen(setState), [history]);
+  useLayoutEffect(() => {
+    const unlisten = history.listen(setState);
+    return () => unlisten();
+  }, [history]);
 
   const storePathname = useSelector((x) => x.router.pathname);
   const browserPathname = history.location.pathname;
