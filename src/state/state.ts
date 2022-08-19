@@ -1,7 +1,6 @@
 // storeの型定義
 export type AppState = {
   router: {
-    // initialized?: boolean;
     pathname: string;
   };
 

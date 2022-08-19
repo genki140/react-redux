@@ -2,7 +2,7 @@
 
 import { configureStore } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
-import { actions } from './actions';
+import reducers from './reducers';
 import { userApi } from './queries/users';
 import { appInitialState } from './state';
 
@@ -10,7 +10,7 @@ import { appInitialState } from './state';
 export const appSlice = createSlice({
   name: 'app',
   initialState: appInitialState,
-  reducers: actions,
+  reducers: reducers,
   // extraReducers: (builder) => {
   //   builder.addCase(updateData.fulfilled, (state, action) => {
   //     // state.tasks = action.payload.tasks;
