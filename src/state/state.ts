@@ -2,6 +2,7 @@
 export type AppState = {
   router: {
     pathname: string;
+    counter?: number; // テスト
   };
 
   index?: { title: string; count: number };
@@ -17,6 +18,8 @@ export type AppState = {
     cancel?: string;
   };
   confirmResult?: boolean;
+
+  test?: string;
 };
 
 // 初期値の定義
@@ -30,4 +33,5 @@ export const appInitialState: AppState = {
   //   ok: 'OK',
   //   result: false,
   // },
+  test: 'テストです',
 };

@@ -3,7 +3,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import reducers from './reducers';
-import { userApi } from './queries/users';
+import { api } from './queries/users';
 import { appInitialState } from './state';
 
 // Sliceの定義。小規模であればSliceは分割の必要なし
@@ -23,11 +23,10 @@ export const appActions = appSlice.actions;
 const store = configureStore({
   reducer: {
     app: appSlice.reducer,
-    [userApi.reducerPath]: userApi.reducer,
+    [api.reducerPath]: api.reducer,
   },
   // [userApi.reducerPath]: userApi.reducer,
-  // middleware: (getDefaultMiddleware) =>
-  //   getDefaultMiddleware().concat(userApi.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),
 });
 export default store;
 

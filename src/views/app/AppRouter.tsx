@@ -1,10 +1,10 @@
 import { ReactNode, useLayoutEffect, useRef, useState } from 'react';
-import { useActions, useSelector } from './hooks/useRedux';
+import { useActions, useSelector } from '../hooks/useRedux';
 
 import type { BrowserHistory } from 'history';
 import { createBrowserHistory } from 'history';
 import { Router } from 'react-router-dom';
-import usePrevious from './hooks/usePrevious';
+import usePrevious from '../hooks/usePrevious';
 
 export function AppRouter(props: { children: ReactNode }) {
   // ステートのpathnameとブラウザのpathnameを同期させる。

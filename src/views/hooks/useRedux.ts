@@ -5,7 +5,7 @@ import { bindActionCreators } from '@reduxjs/toolkit';
 import { useDispatch, useSelector as useReduxSelector } from 'react-redux';
 import { AppState } from '../../state/state';
 import store, { RootDispatch, appActions } from '../../state/store';
-import { showConfirm } from '../../state/thunks';
+import { showConfirm, test } from '../../state/thunks';
 
 // アクションをまとめて使いやすくしたhooks
 export const useActions = () => {
@@ -24,6 +24,8 @@ export const useActions = () => {
       // dispatchを渡してこれらを返すような関数をstate側に実装すると、stateとviewで二重に定義しなくてよさそう。
       showConfirm: (params: { title: string; message: string; accept: string; cancel?: string }) =>
         dispatch(showConfirm(params)).unwrap(),
+
+      test: () => dispatch(test()).unwrap(),
 
       // showConfirm: myDispatch(showConfirm),
     }),

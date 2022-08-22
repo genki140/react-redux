@@ -28,11 +28,51 @@ const moveTo = (state: AppState, { payload }: PayloadAction<{ pathname: string }
     // urlを切り替え
     state.router.pathname = '/';
   }
+  state.router.counter = (state.router.counter ?? 0) + 1;
 };
 
 const additional = (state: AppState, { payload }: PayloadAction<number>) => {
   if (state.index != null) {
     state.index.count += payload;
+  }
+};
+
+// 再帰的にオプショナルにする。
+type RecursivePartial<T> = {
+  [P in keyof T]?: RecursivePartial<T[P]>;
+};
+
+// オブジェクトの深いマージを行う。
+function mergeDeeply(target: any, source: any, opts?: { concatArray: boolean }) {
+  const isObject = (obj: any) => obj && typeof obj === 'object' && !Array.isArray(obj);
+  const isConcatArray = opts && opts.concatArray;
+  let result = Object.assign({}, target);
+  if (isObject(target) && isObject(source)) {
+    for (const [sourceKey, sourceValue] of Object.entries(source)) {
+      const targetValue = target[sourceKey];
+      if (isConcatArray && Array.isArray(sourceValue) && Array.isArray(targetValue)) {
+        result[sourceKey] = targetValue.concat(...sourceValue);
+      } else if (isObject(sourceValue) && target.hasOwnProperty(sourceKey)) {
+        result[sourceKey] = mergeDeeply(targetValue, sourceValue, opts);
+      } else {
+        Object.assign(result, { [sourceKey]: sourceValue });
+      }
+    }
+  }
+  return result;
+}
+
+// undefinedの指定が全てのフィールドで可能となっている
+const setState = (state: AppState, { payload }: PayloadAction<RecursivePartial<AppState>>) => {
+  console.log(payload);
+
+  // この実装どうなんだろう。そのうち重くて使えなくなりそう？
+  const merged = mergeDeeply(state, payload);
+  // console.log(merged);
+  for (let key of Object.keys(merged)) {
+    // console.log(key);
+    (state as any)[key] = merged[key];
+    // console.log((state as any)[key]);
   }
 };
 
@@ -57,6 +97,7 @@ const closeConfirm = (state: AppState, { payload }: PayloadAction<boolean>) => {
 
 // 全 Reducers をまとめて返す
 const reducers = {
+  setState,
   moveTo,
   additional,
   openConfirm,
